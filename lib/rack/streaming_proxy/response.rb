@@ -61,6 +61,7 @@ private
     @body_permitted = read_from_destination
     Rack::StreamingProxy::Proxy.log :debug, "Parent received: Reponse has body? = #{@body_permitted}."
     @headers = HeaderHash.new(read_from_destination)
+    @headers.merge!(CUSTOM_RESPONSE_HEADERS) if CUSTOM_RESPONSE_HEADERS
     @chunked = (@headers['Transfer-Encoding'] == 'chunked')
     finish unless @body_permitted # If there is a body, finish will be called inside each.
   end
